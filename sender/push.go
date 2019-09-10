@@ -45,11 +45,25 @@ func WriteMailModel(mail *g.Mail) {
 	LPUSH(g.Config.Queue.Mail, string(bs))
 }
 
+func WriteDingModel(ding *g.Ding) {
+	if ding == nil {
+		return
+	}
+
+	bs, err := json.Marshal(ding)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	LPUSH(g.Config.Queue.Ding, string(bs))
+}
+
 func WriteSms(tos []string, content string) {
 	if len(tos) == 0 {
 		return
 	}
-
+	log.Println("Write content to sms")
 	sms := &g.Sms{Tos: strings.Join(tos, ","), Content: content}
 	WriteSmsModel(sms)
 }
@@ -58,7 +72,13 @@ func WriteMail(tos []string, subject, content string) {
 	if len(tos) == 0 {
 		return
 	}
-
+	log.Println("Write content to mail")
 	mail := &g.Mail{Tos: strings.Join(tos, ","), Subject: subject, Content: content}
 	WriteMailModel(mail)
+}
+
+func WriteDing(content string) {
+	log.Println("Write content to ding")
+	ding := &g.Ding{Content: content}
+	WriteDingModel(ding)
 }

@@ -11,7 +11,7 @@
     },
     "alarm": {
         "enabled": true,
-        "minInterval": 180,
+        "minInterval": 60,
         "queuePattern": "event",
         "redis": {
             "dsn": "127.0.0.1:6379",

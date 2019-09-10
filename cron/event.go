@@ -31,6 +31,7 @@ func ReadEvent() {
 
 			mailContent := sender.BuildMail(event)
 			smsContent := sender.BuildSms(event)
+			dingContent := sender.BuildDing(event)
 			for _, user := range users {
 				mail = append(mail, user.Email)
 				sms = append(sms, user.Phone)
@@ -38,9 +39,10 @@ func ReadEvent() {
 
 			sender.WriteSms(sms, smsContent)
 			sender.WriteMail(mail, smsContent, mailContent)
+			sender.WriteDing(dingContent)
 		}
 
-		time.Sleep(1 * time.Second)
+		time.Sleep(3 * time.Minute)
 	}
 }
 

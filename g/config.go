@@ -19,6 +19,7 @@ type GlobalConfig struct {
 	Mysql  *MysqlConfig  `json:"mysql"`
 	Worker *WorkerConfig `json:"worker"`
 	Smtp   *SmtpConfig   `json:"smtp"`
+	Ding   *DingConfig   `json:"ding"`
 }
 
 type MysqlConfig struct {
@@ -55,11 +56,13 @@ type WebConfig struct {
 type QueueConfig struct {
 	Mail string `json:"mail"`
 	Sms  string `json:"sms"`
+	Ding string `json:"ding"`
 }
 
 type WorkerConfig struct {
 	Sms  int `json:"sms"`
 	Mail int `json:"mail"`
+	Ding int `json:"ding"`
 }
 
 type SmtpConfig struct {
@@ -67,6 +70,10 @@ type SmtpConfig struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	From     string `json:"from"`
+}
+
+type DingConfig struct {
+	Token string `json:"token"`
 }
 
 var (

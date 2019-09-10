@@ -72,3 +72,35 @@ func PopAllMail(queue string) []*g.Mail {
 
 	return ret
 }
+
+func PopAllDing(queue string) []*g.Ding {
+	ret := []*g.Ding{}
+
+	rc := g.RedisConnPool.Get()
+	defer rc.Close()
+
+	for {
+		reply, err := redis.String(rc.Do("RPOP", queue))
+		if err != nil {
+			if err != redis.ErrNil {
+				log.Println(err)
+			}
+			break
+		}
+
+		if reply == "" || reply == "nil" {
+			continue
+		}
+
+		var ding g.Ding
+		err = json.Unmarshal([]byte(reply), &ding)
+		if err != nil {
+			log.Println(err, reply)
+			continue
+		}
+
+		ret = append(ret, &ding)
+	}
+
+	return ret
+}
